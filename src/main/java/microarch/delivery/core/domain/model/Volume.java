@@ -7,9 +7,9 @@ import libs.errs.GeneralErrors;
 import libs.errs.Result;
 import libs.errs.Error;
 
-public class Volume extends ValueObject<Location> {
+public class Volume extends ValueObject<Volume> {
 
-    private int volume;
+    private final int volume;
 
     private Volume(int volume) {
         this.volume = volume;
