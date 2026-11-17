@@ -32,4 +32,18 @@ public class Volume extends ValueObject<Volume> {
         return List.of(volume);
     }
 
+    public Result<Volume, Error> add(Volume other) {
+        if (other == null) {
+            return Result.failure(GeneralErrors.valueIsRequired("other"));
+        }
+
+        long sum = (long) this.volume + other.volume;
+
+        if (sum > Integer.MAX_VALUE) {
+            return Result.failure(Error.of("volume_overflow", "Суммарный объем превышает допустимое значение"));
+        }
+
+        return Volume.create((int) sum);
+    }
+
 }
