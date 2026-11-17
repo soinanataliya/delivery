@@ -3,8 +3,41 @@ package microarch.delivery.core.domain.model;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VolumeTest {
+
+    @Test
+    public void shouldReturnTrueWhenVolumeIsGreater() {
+        var first = Volume.create(21).getValue();
+        var second = Volume.create(20).getValue();
+
+        assertThat(first.greaterThan(second)).isTrue();
+    }
+
+    @Test
+    public void shouldReturnFalseWhenVolumesAreEqual() {
+        var first = Volume.create(20).getValue();
+        var second = Volume.create(20).getValue();
+
+        assertThat(first.greaterThan(second)).isFalse();
+    }
+
+    @Test
+    public void shouldReturnFalseWhenVolumeIsLess() {
+        var first = Volume.create(19).getValue();
+        var second = Volume.create(20).getValue();
+
+        assertThat(first.greaterThan(second)).isFalse();
+    }
+
+    @Test
+    public void shouldRejectNullWhenComparingVolumes() {
+        var volume = Volume.create(20).getValue();
+
+        assertThatThrownBy(() -> volume.greaterThan(null))
+                .isInstanceOf(NullPointerException.class);
+    }
 
     @Test
     public void shouldReturnSuccessWhenValueIsValid() {

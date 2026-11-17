@@ -1,6 +1,7 @@
 package microarch.delivery.core.domain.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import libs.ddd.ValueObject;
 import libs.errs.GeneralErrors;
@@ -30,6 +31,14 @@ public class Volume extends ValueObject<Volume> {
     @Override
     protected Iterable<Object> equalityComponents() {
         return List.of(volume);
+    }
+
+    public boolean greaterThan(Volume other) {
+        if (other == null) {
+            throw new NullPointerException("other");
+        }
+
+        return this.volume > other.volume;
     }
 
     public Result<Volume, Error> add(Volume other) {

@@ -3,7 +3,7 @@ package microarch.delivery.core.domain.model.order;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import libs.ddd.BaseEntity;
+import libs.ddd.Aggregate;
 import libs.errs.Result;
 import libs.errs.UnitResult;
 import libs.errs.Error;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "orders")
 
-public final class Order extends BaseEntity<UUID> {
+public final class Order extends Aggregate<UUID> {
 
     @Column(name = "volume")
     @Getter
@@ -31,7 +31,7 @@ public final class Order extends BaseEntity<UUID> {
     private OrderStatus status;
 
     private Order(UUID id, Volume volume, Location location, OrderStatus status) {
-        this.id = id;
+        super(id);
         this.volume = volume;
         this.location = location;
         this.status = status;

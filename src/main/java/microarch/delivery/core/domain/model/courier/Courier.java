@@ -3,7 +3,7 @@ package microarch.delivery.core.domain.model.courier;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import libs.ddd.BaseEntity;
+import libs.ddd.Aggregate;
 import libs.errs.Result;
 import libs.errs.UnitResult;
 import libs.errs.Error;
@@ -21,7 +21,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "couriers")
 
-public final class Courier extends BaseEntity<UUID> {
+public final class Courier extends Aggregate<UUID> {
 
     @Column(name = "name")
     @Getter
@@ -80,7 +80,7 @@ public final class Courier extends BaseEntity<UUID> {
             }
         }
 
-        if (totalVolume.getVolume() > maxVolume.getVolume()) {
+        if (totalVolume.greaterThan(maxVolume)) {
             return UnitResult.failure(Error.of("volume_exceeded", "Объем заказов превышает вместимость курьера"));
         }
 
