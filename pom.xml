@@ -295,7 +295,7 @@
             </plugin>
 
             <!-- Плагин для генерации кода из Swagger Open API -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>7.1.0</version>
@@ -327,7 +327,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
 
             <!-- Плагин для генерации кода из Protobuf -->
             <plugin>

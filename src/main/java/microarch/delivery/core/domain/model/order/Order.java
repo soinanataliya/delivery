@@ -1,6 +1,7 @@
 package microarch.delivery.core.domain.model.order;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import libs.ddd.Aggregate;
@@ -19,16 +20,23 @@ import java.util.UUID;
 public final class Order extends Aggregate<UUID> {
 
     @Column(name = "volume")
+    @Convert(converter = Volume.VolumeConverter.class)
     @Getter
     private final Volume volume;
 
     @Column(name = "location")
+    @Convert(converter = Location.LocationConverter.class)
     @Getter
     private final Location location;
 
     @Column(name = "status")
     @Getter
     private OrderStatus status;
+
+    protected Order() {
+        this.volume = null;
+        this.location = null;
+    }
 
     private Order(UUID id, Volume volume, Location location, OrderStatus status) {
         super(id);

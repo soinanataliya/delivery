@@ -1,6 +1,7 @@
 package microarch.delivery.core.domain.model.courier;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import libs.ddd.BaseEntity;
@@ -25,10 +26,12 @@ public final class Assignment extends BaseEntity<UUID> {
     private final UUID orderId;
 
     @Column(name = "volume")
+    @Convert(converter = Volume.VolumeConverter.class)
     @Getter
     private final Volume volume;
 
     @Column(name = "location")
+    @Convert(converter = Location.LocationConverter.class)
     @Getter
     private final Location location;
 
