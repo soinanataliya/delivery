@@ -2,6 +2,8 @@ package microarch.delivery.core.domain.model;
 
 import java.util.List;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import jakarta.validation.constraints.NotNull;
 import libs.ddd.ValueObject;
 import libs.errs.Result;
@@ -46,6 +48,23 @@ public class Location extends ValueObject<Location> {
 
     public int distanceTo(@NotNull Location other) {
         return Math.abs(x - other.x) + Math.abs(y - other.y);
+    }
+
+    @Converter
+    public static class LocationConverter implements AttributeConverter<Location, String> {
+
+        @Override
+        public String convertToDatabaseColumn(Location location) {
+            return location == null ? null : location.getX() + ";" + location.getY();
+        }
+
+        @Override
+        public Location convertToEntityAttribute(String value) {
+            if (value == null)
+                return null;
+            var parts = value.split(";");
+            return Location.create(Integer.parseInt(parts[0]), Integer.parseInt(parts[1])).getValueOrThrow();
+        }
     }
 
 }

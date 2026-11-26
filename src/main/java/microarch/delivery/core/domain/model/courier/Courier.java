@@ -1,7 +1,10 @@
 package microarch.delivery.core.domain.model.courier;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import libs.ddd.Aggregate;
 import libs.errs.Result;
@@ -28,15 +31,25 @@ public final class Courier extends Aggregate<UUID> {
     private final String name;
 
     @Column(name = "maxVolume")
+    @Convert(converter = Volume.VolumeConverter.class)
     @Getter
     private final Volume maxVolume;
 
     @Column(name = "location")
+    @Convert(converter = Location.LocationConverter.class)
     @Getter
     private Location location;
 
     @Column(name = "assignments")
+    @OneToMany
+    @JoinColumn(name = "courier_id")
     private final List<Assignment> assignments;
+
+    protected Courier() {
+        this.name = null;
+        this.maxVolume = null;
+        this.assignments = new ArrayList<>();
+    }
 
     private Courier(String name, Location location) {
         super(UUID.randomUUID());

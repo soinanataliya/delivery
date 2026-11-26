@@ -1,8 +1,9 @@
 package microarch.delivery.core.domain.model;
 
 import java.util.List;
-import java.util.Objects;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import libs.ddd.ValueObject;
 import libs.errs.GeneralErrors;
 import libs.errs.Result;
@@ -53,6 +54,20 @@ public class Volume extends ValueObject<Volume> {
         }
 
         return Volume.create((int) sum);
+    }
+
+    @Converter
+    public static class VolumeConverter implements AttributeConverter<Volume, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(Volume volume) {
+            return volume == null ? null : volume.getVolume();
+        }
+
+        @Override
+        public Volume convertToEntityAttribute(Integer value) {
+            return value == null ? null : Volume.create(value).getValueOrThrow();
+        }
     }
 
 }

@@ -35,8 +35,7 @@ public class VolumeTest {
     public void shouldRejectNullWhenComparingVolumes() {
         var volume = Volume.create(20).getValue();
 
-        assertThatThrownBy(() -> volume.greaterThan(null))
-                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> volume.greaterThan(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test
