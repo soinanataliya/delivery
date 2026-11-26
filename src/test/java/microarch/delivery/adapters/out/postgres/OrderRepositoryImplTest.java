@@ -64,16 +64,18 @@ class OrderRepositoryIntegrationTest extends PostgresIntegrationTestBase {
     void CanFindAssignedOrdersAfterAssign() {
         // Arrange
         var order = createOrder();
-        assertThat(order.assign().isSuccess()).isTrue();
+        repository.add(order);
+        var loaded = repository.findById(order.getId()).orElseThrow();
+        assertThat(loaded.getStatus()).isEqualTo(OrderStatus.Created);
 
         // Act
-        repository.update(order);
+        assertThat(loaded.assign().isSuccess()).isTrue();
+        repository.update(loaded);
+        var updated = repository.findById(order.getId()).orElseThrow();
         var assigned = repository.findAllAssigned();
-        var created = repository.findAnyCreated();
 
         // Assert
+        assertThat(updated.getStatus()).isEqualTo(OrderStatus.Assigned);
         assertThat(assigned).extracting(currOrder -> currOrder.getId()).contains(order.getId());
-        var isStillCreated = created.map(currOrder -> currOrder.getId().equals(order.getId())).orElse(false);
-        assertThat(isStillCreated).isFalse();
     }
 }
